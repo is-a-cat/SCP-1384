@@ -111,7 +111,6 @@ body{
 	top:450px;
 	width:260px;
 	height:80px;
-	border:1px solid;
 	z-index:5;
 }
 .menu1{
@@ -119,7 +118,6 @@ body{
 	top:0px;
 	width:260px;
 	height:80px;
-	border:1px solid;
 	z-index:5;
 }
 
@@ -129,7 +127,6 @@ body{
 	left:700px;
 	width:260px;
 	height:140px;
-	border:1px solid;
 	z-index:5;
 }
 

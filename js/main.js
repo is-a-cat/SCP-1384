@@ -19,8 +19,6 @@ function gridToCoords(input){
 	return {x:parseInt(subj.centerp.x),y:parseInt(subj.centerp.y),z:0};
 }
 function coordsToGrid(input){
-	//501=-315
-	//27=-315
 	var newX=-1*input.x+216;
 	var newY=-1*input.y+242;
 	return {x:newX,y:newY,z:0};
@@ -138,8 +136,48 @@ this.sheet.context.fillRect(0, 0, 200, 80);
 _update();
 
 }
+function menuHandler(){
+	$('.menu1').html('Steps Taken: '+stats.movement);
+	saveStats();
+}
+if(localStorage.stats){
+	loadStats();
+	menuHandler();
+}else{
+var stats={movement:0};
+}
+function saveStats(){
+	localStorage.stats=JSON.stringify(stats);
+}
+function loadStats(){
+	stats=JSON.parse(localStorage.stats);
+}
+var xm=[-1,0,1,0];
+var ym=[0,-1,0,1];
 //-----------------SCP 1384 object;
 function makeSCP(pos){
+	var that=this;
+	this.move=function(dir){
+		//Accessable via scp.move
+		var oldCoords=this.coords;
+		var newCoords={x:oldCoords.x+xm[dir],y:oldCoords.y+ym[dir]}
+		actuallyMove(newCoords);
+	}
+	function actuallyMove(coords){
+//		console.log(colours[floor[coords.x-1][coords.y-1]]);
+		floor[coords.x][coords.y].color='green';
+		//ANIMATION GOES HERE
+		that.obj.setPosition(matrix[coords.x][coords.y].centerp);
+		stats.movement+=1;
+		menuHandler();
+		that.coords=coords;
+		localStorage.scpCoords=[coords.x,coords.y];
+		endCheck()
+		_update();
+	}
+	function endCheck(){
+		//Check to see if over the end tiles;
+	}
 	this.sheet = new sheetengine.Sheet({
 		x: 0,
 	      y: 0,
@@ -180,10 +218,11 @@ if(localStorage.scpCoords){
 	var pos=matrix[xx][yy].dim;
 	var scp=new makeSCP(matrix[xx][yy].centerp);
 }else{
-var pos=randomLoc();
-localStorage.scpCoords=[pos.x,pos.y];
-var scp= new makeSCP(pos.obj.centerp);
+	var pos=randomLoc();
+	localStorage.scpCoords=[pos.x,pos.y];
+	var scp= new makeSCP(pos.obj.centerp);
 };
+scp.coords=pos;
 things[pos.x][pos.y]=scp;
 function newGame(){
 	localStorage.clear();
