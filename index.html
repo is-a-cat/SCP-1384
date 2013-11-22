@@ -26,8 +26,15 @@
 <!-- Add your site or application content here -->
 <canvas id="mainCanvas" width="1000" unselectable="on" height="500" style='border:0px solid;'></canvas>
 <div class='menu1'>Steps Taken: 0</div>
-<div class='menu2'></div>
-<div class='menu3'></div>
+<div class='menu2'><textarea id='notes' placeholder='notes'></textarea></div>
+<div class='menu3'>
+	<button class='btn' onClick='makeRes()'> Make Researcher </button><br>
+	<input type='text' id='x'></input><br>
+	<input type='text' id='y'></input><br>
+	<button class='btn' onClick=''> </button>
+
+
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>						
 <script src="js/vendor/sheetengine.js"></script>

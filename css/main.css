@@ -129,6 +129,10 @@ body{
 	height:140px;
 	z-index:5;
 }
+.menu2 textarea{
+	height:130px;
+	width:250px;
+}
 
 
 

@@ -1,0 +1,57 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'terngvim' ]
+2 info using npm@1.2.18
+3 info using node@v0.10.15
+4 verbose read json /var/www/SCP-1384/package.json
+5 verbose read json /var/www/SCP-1384/node_modules/jshint/package.json
+6 verbose read json /var/www/SCP-1384/node_modules/tern/package.json
+7 verbose read json /var/www/SCP-1384/package.json
+8 verbose cache add [ 'terngvim', null ]
+9 verbose cache add name=undefined spec="terngvim" args=["terngvim",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'terngvim',
+10 verbose parsed url   path: 'terngvim',
+10 verbose parsed url   href: 'terngvim' }
+11 silly lockFile 4ec7acbc-terngvim terngvim
+12 verbose lock terngvim /home/lex/.npm/4ec7acbc-terngvim.lock
+13 silly lockFile 4ec7acbc-terngvim terngvim
+14 silly lockFile 4ec7acbc-terngvim terngvim
+15 verbose addNamed [ 'terngvim', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile c1480677-terngvim terngvim@
+18 verbose lock terngvim@ /home/lex/.npm/c1480677-terngvim.lock
+19 silly addNameRange { name: 'terngvim', range: '*', hasData: false }
+20 verbose url raw terngvim
+21 verbose url resolving [ 'https://registry.npmjs.org/', './terngvim' ]
+22 verbose url resolved https://registry.npmjs.org/terngvim
+23 info trying registry request attempt 1 at 03:31:46
+24 http GET https://registry.npmjs.org/terngvim
+25 http 404 https://registry.npmjs.org/terngvim
+26 silly registry.get cb [ 404,
+26 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R15B03)',
+26 silly registry.get     date: 'Thu, 21 Nov 2013 16:31:51 GMT',
+26 silly registry.get     'content-type': 'application/json',
+26 silly registry.get     'content-length': '52',
+26 silly registry.get     'cache-control': 'must-revalidate' } ]
+27 silly lockFile c1480677-terngvim terngvim@
+28 silly lockFile c1480677-terngvim terngvim@
+29 error 404 'terngvim' is not in the npm registry.
+29 error 404 You should bug the author to publish it
+29 error 404
+29 error 404 Note that you can also install from a
+29 error 404 tarball, folder, or http url, or git url.
+30 error System Linux 3.11.0-13-generic
+31 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "terngvim"
+32 error cwd /var/www/SCP-1384
+33 error node -v v0.10.15
+34 error npm -v 1.2.18
+35 error code E404
+36 verbose exit [ 1, true ]
