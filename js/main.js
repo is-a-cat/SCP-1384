@@ -1,8 +1,40 @@
+localStorage.gameTime=localStorage.gameTime||0;
+localStorage.checkTime=localStorage.checkTime||0;
+var checkTime=localStorage.checkTime;
+var gameTime=localStorage.gameTime;
+setInterval(function(){//Time loop every second
+	checkTime++;//add to the time since last checked
+	gameTime++;//Add to the gametime
+	localStorage.checkTime=checkTime;
+	localStorage.gameTime=gameTime;
+	$('.time').html(gameTime);//display gametime
+	if(checkTime==50){
+		scp.move(0);
+		checkTime=0;
+	}
+},1000);
+function toggle(stat){
+	//open modal box. 0=toggle,1=open,2=close
+	stat=stat||0;
+	if(stat==0){
+		var open=(parseInt($('.popup').css("top"))>0?2:1);
+	}else{
+		var open=stat;
+	}
+	if(open==2){
+		$('.popup').animate({top:-400});
+	}else{
+		$('.popup').animate({top:100});
+	}
+
+
+}
+//Save notes on blur
 $('textarea').blur(function() {
 	var txt=$('#notes').val();
 	localStorage.notes=txt.escapeHTML();
-	console.log(txt);
 });
+//retrieve notes on load
 $(function() {
 	if(localStorage.notes){
 		$('#notes').val(localStorage.notes.unescapeHTML());
@@ -47,11 +79,20 @@ canvasElement.onmousemove=function(event){
 			if(isObjectHovered(puv,target)){
 				_cursor.setPosition(target.centerp);
 				_update();
-				lastHover=target;
+				lastHover={x:x,y:y};
 			}
 		}
 	}
 }
+function SCPhandler(){
+}
+canvasElement.onmousedown=function(event){
+	if(things[lastHover.x-1][lastHover.y-1].type=='scp'){
+		console.log("SCP");
+	}else if(things[lastHover.x][lastHover.y].type=='res'){
+		console.log("RESEARCHER");	
+	}
+};
 function changeSquare(square,colour){
 	console.log("changing square from "+colours[floor[square.x][square.y]]+" to "+colours[colour]);
 	floor[square.x][square.y]=colour;
@@ -111,42 +152,19 @@ function drawFloor(){
 	}
 
 }
-//--archway
-function arch(pos){
-	this.sheet = new sheetengine.Sheet({
-		x: 0,
-		y: 0,
-		z: 0
-	}, {
-		alphaD: 0,
-		betaD: 0,
-		gammaD: 90
-	}, {
-		w: 200,
-		h: 80
-	});
-	this.obj = new sheetengine.SheetObject({
-		x: pos.x,
-		y: pos.y,
-		z: +55
-	}, {
-		alphaD: 0,
-		betaD: 0,
-		gammaD: 0
-	}, [this.sheet], {
-		w: 200,
-		h: 80,
-		relu: 20,
-		relv: 50
-	});
-	this.obj.setShadows(false, false);
-	this.sheet.context.fillStyle = '#12FF00';
-	this.sheet.context.fillRect(0, 0, 200, 80);
-	_update();
-
-}
+say = {
+	scp: function(a){
+		$('.inner_speaking').append('<b>SCP-1384:</b> '+a+'<br/>');
+	},
+	site: function(a){
+		$('.inner_speaking').append(a+'</font><br/>');
+	},
+	error: function(a){
+		$('.inner_speaking').append('<font color="red"><b>ERROR: </b> '+a+'</font><br/>');
+	},
+};
 function menuHandler(){
-	$('.menu1').html('Steps Taken: '+stats.movement);
+	$('.scp_stats').html('Steps Taken: '+stats.movement);
 	saveStats();
 }
 if(localStorage.stats){
@@ -169,133 +187,9 @@ function displayCoords(){
 	}
 }
 //-----------------SCP 1384 object;
-function makeSCP(pos){
-	var that=this;
-	this.type='scp';
-	this.move=function(dir){
-		//Accessable via scp.move
-		var oldCoords=this.coords;
-		things[oldCoords.x][oldCoords.y]=0;
-		var newCoords={x:oldCoords.x+xm[dir],y:oldCoords.y+ym[dir]}
-		things[newCoords.x][newCoords.y]=this;
-		actuallyMove(newCoords);
-	}
-	function actuallyMove(coords){
-		//don't move if square is yellow
-		if(floor[coords.x+1][coords.y+1]==1){
-			console.log('cannot move here')
-			return;
-		}
-		//ANIMATION GOES HERE
-		that.obj.setPosition(matrix[coords.x][coords.y].centerp);
-		stats.movement+=1;
-		menuHandler();
-		that.coords=coords;
-		localStorage.scpCoords=[coords.x,coords.y];
-		endCheck()
-		_update();
-	}
-	function endCheck(){
-		//Check to see if over the end tiles;
-	}
-	this.sheet = new sheetengine.Sheet({
-		x: 0,
-		y: 0,
-		z: 0
-	}, {
-		alphaD: 0,
-		betaD: 0,
-		gammaD: 45
-	}, {
-		w: 30,
-		h: 64
-	});
-	this.obj = new sheetengine.SheetObject({
-		x: pos.x,
-		y: pos.y,
-		z: 0
-	}, {
-		alphaD: 0,
-		betaD: 0,
-		gammaD: 0
-	}, [this.sheet], {
-		w: 100,
-		h: 64,
-		relu: 20,
-		relv: 50
-	});
-	this.obj.setShadows(false, false);
-	this.sheet.context.fillStyle = '#12FF00';
-	this.sheet.context.fillRect(0, 0, 30, 64);
-	_update();
-
-}
-function researcher(cor){
-	this.type='res';
-	things[cor.x][cor.y]=this;
-	this.coords=cor;
-	var pos=gridToCoords(cor)
-	var that=this;
-	this.move=function(dir){
-		//Accessable via scp.move
-		var oldCoords=this.coords;
-		var newCoords={x:oldCoords.x+xm[dir],y:oldCoords.y+ym[dir]}
-		console.log(oldCoords,newCoords);
-		things[oldCoords.x][oldCoords.y]=0;
-		if(things[newCoords.x][newCoords.y]!==0){
-			if(things[newCoords.x][newCoords.y].type=='scp')
-				console.log('SCP');
-			else if(things[newCoords.x][newCoords.y].type=='res')
-				console.log('Researcher');
-			else
-				console.log('occupied');
-			return;
-		}
-		things[newCoords.x][newCoords.y]=this;
-		actuallyMove(newCoords);
-	}
-	function actuallyMove(coords){
-
-		//ANIMATION GOES HERE
-		that.obj.setPosition(matrix[coords.x][coords.y].centerp);
-		that.coords=coords;
-		_update();
-	}
-	function endCheck(){
-		//Check to see if over the end tiles;
-	}
-	this.sheet = new sheetengine.Sheet({
-		x: 0,
-		y: 0,
-		z: 0
-	}, {
-		alphaD: 0,
-		betaD: 0,
-		gammaD: 45
-	}, {
-		w: 30,
-		h: 64
-	});
-	this.obj = new sheetengine.SheetObject({
-		x: pos.x,
-		y: pos.y,
-		z: 0
-	}, {
-		alphaD: 0,
-		betaD: 0,
-		gammaD: 0
-	}, [this.sheet], {
-		w: 100,
-		h: 64,
-		relu: 20,
-		relv: 50
-	});
-	this.obj.setShadows(false, false);
-	this.sheet.context.fillStyle = 'red';
-	this.sheet.context.fillRect(0, 0, 30, 64);
-	_update();
-
-}
+//var dirWord=['forward','right','backwards','left'];
+var dirWord=['north','east','south','west'];
+var imgDir=[0,2,3,1];
 //----------drawSCP
 if(localStorage.scpCoords){
 	var scpCoords=localStorage.scpCoords.split(',');
@@ -347,11 +241,45 @@ _curs = new sheetengine.Sheet({
 	w: 45,
 	h: 45
 });
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+
+    e = e || window.event;
+
+    if (e.keyCode == '37') {
+	    //left
+	_player.move(0);
+    }else if (e.keyCode == '38') {
+        // up arrow
+	_player.move(1);
+    }
+    else if (e.keyCode == '39') {
+	    //right
+	_player.move(2);
+    }
+    else if (e.keyCode == '40') {
+        // down arrow
+	_player.move(3);
+    }else{
+    return true;
+    }
+    return false;
+}
 var entrance=matrix[0][Math.floor(matrix[0].length/2)];
 var entrance2=matrix[0][Math.floor(matrix[0].length/2)-1];
 entrance.color='#12FF00';
 entrance2.color='#12FF00';
 var exit=new arch(entrance.centerp);
+if(localStorage.playerCoords){
+	var playerCoords=localStorage.playerCoords.split(',');
+	var px=parseInt(playerCoords[0]);
+	var py=parseInt(playerCoords[1]);
+	var _player=new researcher({x:px,y:py});
+}else{
+	var _player=new researcher({x:0,y:6});
+	localStorage.playerCoords=[0,6];
+}
 _curs.context.fillStyle = 'silver';
 _curs.context.fillRect(0, 0, 45, 45);
 //only objects can be moved, so make the cursor an object
