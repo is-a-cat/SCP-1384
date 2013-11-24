@@ -17,6 +17,8 @@ Add rules for 1384 moving forward. - some done
 Implement some kind of time system.
 </del>
 Add basic pathfinding to avoid collisions. - sort of works
+
 Add endgame for losing. - sort of works
+
 Add sprites. - some done
 
