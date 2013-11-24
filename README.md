@@ -7,11 +7,16 @@ This game is client-side only so cloning and opening index.html is all it takes 
 
 
 TO DO:
+---------
 
+<del>
 Add researchers.
-Add rules for 1384 moving forward.
+</del>
+Add rules for 1384 moving forward. - some done
+<del>
 Implement some kind of time system.
-Add basic pathfinding to avoid collisions.
-Add endgame for losing.
-Add sprites.
+</del>
+Add basic pathfinding to avoid collisions. - sort of works
+Add endgame for losing. - sort of works
+Add sprites. - some done
 
