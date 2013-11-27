@@ -1,63 +1,21 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title></title>
+<title>SCP-1384</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-<link rel="stylesheet" href="css/normalize.css">
-<link rel="stylesheet" href="bootstrap-combined.no-icons.min.css">
-<!--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="css/main.css">
-<script src="js/vendor/modernizr-2.6.2.min.js"></script>
-</head>
+<link rel="stylesheet" href='css/default.css'>
 <body>
-<!--[if lt IE 7]>
-	    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
-
-<!-- Add your site or application content here -->
-
+<div id='header'>
+	<span class='title'>SCP-1384</span>
+	<span class='buttons'></span>
+</div>
+<div class='info'></div>
 <canvas id="mainCanvas" width="1000" unselectable="on" height="500" style='border:0px solid;'></canvas>
-<div class='menu1'><h1>SCP Stats</h1><div class='scp_stats'>Steps Taken: 0</div><br>Time: <span class='time'></span></div>
-<div class='menu2'><textarea id='notes' placeholder='notes'></textarea></div>
-<div class='menu4'>
-	<button class='btn btn-primary' onClick='newGame()'>New Game</button>
-	<button class='btn btn-success' onClick='$("#coords").val("SCP "+scp.coords.x+", "+scp.coords.y);'>Coords</button>
-	<textarea id='coords'></textarea>
-	</div>
-<div class='menu3'>
-	<div class='outer_speaking'>
-		<div class='inner_speaking'>
-		</div>
-	</div>
-</div>
-<div class='popup'>
-	<span class='popup_title'></span>
-	<span class='body'></span>
-	<span class='footer'></span>
-</div>
-<!--Local versions-->
-	<script src="js/vendor/jquery-1.10.2.min.js"></script>
-	<script src="js/vendor/jquery-ui.js"></script>
-	<script src="js/vendor/mustache.min.js"></script>				
-<!--Live versions-->
-	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
-	<!--<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>				-->
-
-<script src="js/vendor/bootstrap.min.js"></script>						
-<script src="js/vendor/sheetengine.js"></script>
-<script src="js/vendor/sugar.min.js"></script>						
-<script src="js/plugins.js"></script>
-<script src="js/objects.js"></script>
-<script src="js/main.js"></script>
-
+<script src='js/sheetengine.js'></script>
+<script src='js/handler.js'></script>
+<!--<script src='js/interface.js'></script>-->
+<script src='js/objects.js'></script>
+<script src='js/world.js'></script>
 </body>
 </html>
