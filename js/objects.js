@@ -249,7 +249,7 @@ function arch(){
 	{
 		alphaD: 0,
 		betaD: 0,
-		gammaD: 45,
+		gammaD: 45
 	},
 	{
 		w: 169,
