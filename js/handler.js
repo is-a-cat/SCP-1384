@@ -1,3 +1,48 @@
+var debug=(window.location.hash=='#debug'?1:0);
+var a=0;
+window.onload = function(e){ 
+	a=1;
+	stats=document.getElementById('extraInfo');
+	if(localStorage.notes)
+		document.getElementById('notes').value=localStorage.notes;
+	updateStats();
+}
+function updateStats(){
+	if(!a) return;
+	var stat={
+		scp:{
+			x:scp.x,
+			y:scp.y
+		},
+		me:{
+			x:me.x,
+			y:me.y,
+		}
+	};
+	stats.innerHTML="SCP: ["+stat.scp.x+", "+stat.scp.y+"]<br>Player: ["+stat.me.x+", "+stat.me.y+"]";
+	console.log(stat);
+
+}
+function saveText(){
+	localStorage.notes=document.getElementById('notes').value;
+}
+function toggle_visibility(id) {
+	var e = document.getElementById(id);
+	if(e.style.display !== 'none')
+		e.style.display = 'none';
+	else
+		e.style.display = 'block';
+}
+function newGame(auto){
+	if(!auto){
+		var check=confirm("Really start a new Game?");
+		if(!check){
+			return;
+		}
+	}
+	localStorage.clear();
+	location.reload();
+}
 function getFloor(){
 	if(localStorage.floor){
 		fl2=JSON.parse(localStorage.floor);
@@ -42,6 +87,7 @@ function drawFloor(){
 
 }
 function _update(){ // draw the scene
+	updateStats();
 	sheetengine.calc.calculateAllSheets();
 	sheetengine.drawing.drawScene(true);
 }

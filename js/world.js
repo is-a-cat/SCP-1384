@@ -7,10 +7,21 @@ var things=[];
 var matrix=[];
 var colours=['#FF652C','#FFE62C','#282828','#4083FF','#FFB52C'];
 getFloor();
-var scp = new SCP({x:14,y:6});
-var me = new player({x:0,y:6});
+localStorage.scp=localStorage.scp||'14,6';
+var scpCoord = localStorage.scp.split(',');
+var scp = new SCP({x:parseInt(scpCoord[0]),y:parseInt(scpCoord[1])});
+if(!localStorage.player) changeSquare({x:0,y:12},0); // SCP begins on a blue square
+localStorage.player=localStorage.player||'0,12';
+var playerCoord = localStorage.player.split(',');
+var me = new player({x:parseInt(playerCoord[0]),y:parseInt(playerCoord[1])});
+var exit=new arch();
 //temporary set exit
-matrix[0][6].color='red';
-matrix[0][7].color='red';
+if(debug){
+	matrix[0][11].color='red';
+	matrix[0][12].color='red';
+	matrix[0][13].color='red';
+	matrix[scpCoord[0]][scpCoord[1]].color='green';
+	matrix[playerCoord[0]][playerCoord[1]].color='green';
+}
 _update();
 

@@ -44,6 +44,9 @@ function SCP(position){
 	_update();
 }
 SCP.prototype.isFree = function(x,y){
+	if(x===0&&(y===10||y===14)){
+		return false;
+	}
 	if(this.been[1]){//just come from that square
 		if(this.been[1].x===x&&this.been[1].y===y){//don't move back to where you just where.
 			return false;
@@ -60,9 +63,11 @@ SCP.prototype.isFree = function(x,y){
 var mov = [ {x:-1,y:0}, {x:0,y:-1}, {x:1,y:0}, {x:0,y:1}];
 SCP.prototype.tryMove = function(){
 	//check distance, if far, try forward.
-	if( (this.y==6||this.y==7) && this.x==1){
-		localStorage.clear();
-		console.log("END");
+	if( (this.y==11||this.y==12||this.y==13) && this.x==0){
+		alert('You Lose');
+		newGame(1);
+		return;
+		//console.log("END");
 	}
 	if( ( this.isFree( this.x+mov[0].x,this.y+mov[0].y ) )&&(this.x>4) ){
 		console.log("forward");
@@ -70,19 +75,19 @@ SCP.prototype.tryMove = function(){
 		//forward
 	}else{
 		//if close, see which direction to move.
-		if(( this.y<6 )&&( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
+		if(( this.y<11 )&&( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
 			console.log('move left');
 			var dir=mov[3];	
-		}else if(( this.y>7 )&&( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
+		}else if(( this.y>13 )&&( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
 			console.log('move right');
 			var dir=mov[1];	
 		}else if(( this.isFree( this.x+mov[0].x,this.y+mov[0].y ) )){
 			console.log('move forward');
 			var dir=mov[0];	
-		}else if(( this.y>=7 )&&( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
+		}else if(( this.y>=13 )&&( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
 			console.log('move right');
 			var dir=mov[1];	
-		}else if(( this.y<=6 )&&( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
+		}else if(( this.y<=11 )&&( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
 			console.log('move left');
 			var dir=mov[3]; 
 		}else if(( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
@@ -110,6 +115,7 @@ SCP.prototype.tryMove = function(){
 	this.move(newCoords,newDir);
 }
 SCP.prototype.move = function(direction,newDir){
+	localStorage.scp=[direction.x,direction.y].join(',');
 	var dir=matrix[direction.x][direction.y].centerp;
 	this.x+=newDir.x;
 	this.y+=newDir.y;
@@ -183,6 +189,9 @@ player.prototype.tryMove = function (dir){
 	var oldGrid = {x:this.x, y:this.y};
 	var newGrid = {x:this.x+mov[dir].x,y:this.y+mov[dir].y};
 	function canMove(place){
+		if(place.x===0&&(place.y===10||place.y===14)){
+			return false;
+		}
 		if(!matrix[place.x][place.y]){
 			return false;
 		}
@@ -222,9 +231,59 @@ player.prototype.tryMove = function (dir){
 	}
 }
 player.prototype.move = function(dir){
+	localStorage.player=[dir.x,dir.y].join(',');
 	var coords=matrix[dir.x][dir.y].centerp;
 	this.x=dir.x;
 	this.y=dir.y;
 	this.obj.setPosition({ x: coords.x, y: coords.y, z:0 });
+	_update();
+}
+function arch(){
+	var pos=matrix[0][14].centerp;
+	this.sheet = new sheetengine.Sheet(
+		{
+		x: -145,
+		y: -207,
+		z: 0
+	},
+	{
+		alphaD: 0,
+		betaD: 0,
+		gammaD: 45,
+	},
+	{
+		w: 169,
+		h: 266
+	});
+	this.obj = new sheetengine.SheetObject(
+		{
+		x: pos.x,
+		y: pos.y,
+		z: 0
+	},
+	{
+		alphaD: 0,
+		betaD: 0,
+		gammaD: 0
+	}, [this.sheet],
+	{
+		w: 169,
+		h: 266,
+		relu: 20,
+		relv: 50
+	});
+	//169 266
+	this.obj.setShadows(false, false);
+	this.img = new Image();
+	this.img.src = 'img/exit.png';
+	var that = this;
+	 this.img.onload = function ()
+	 {
+		 that.sheet.context.clearRect(0, 0, 169, 266);
+		 that.sheet.context.drawImage(that.img,0,0);
+		 that.sheet.canvasChanged();
+		 _update();
+	 };
+	this.sheet.canvasChanged();
 	_update();
 }

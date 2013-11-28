@@ -8,14 +8,23 @@
 <body>
 <div id='header'>
 	<span class='title'>SCP-1384</span>
-	<span class='buttons'></span>
+	<span class='buttons'>
+
+<a href="#" class="Button" onClick='scp.tryMove()'>About</a>
+<a href="#" onClick='toggle_visibility("text");' class="Button">Notes</a>
+<a href="#" onClick='newGame();' class="blue">New Game</a>
+	</span>
 </div>
-<div class='info'></div>
 <canvas id="mainCanvas" width="1000" unselectable="on" height="500" style='border:0px solid;'></canvas>
 <script src='js/sheetengine.js'></script>
 <script src='js/handler.js'></script>
 <!--<script src='js/interface.js'></script>-->
 <script src='js/objects.js'></script>
 <script src='js/world.js'></script>
+
+<div class='info' id='text'>
+	<textarea id='notes' placeholder="Keep your notes here" onBlur='saveText();'></textarea><br>
+	<div class='extraInfo' id='extraInfo'></div>
+</div>
 </body>
 </html>
