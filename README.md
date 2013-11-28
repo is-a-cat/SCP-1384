@@ -18,7 +18,8 @@ Implement some kind of time system.
 </del>
 Add basic pathfinding to avoid collisions. - sort of works
 
+<del>
 Add endgame for losing. - sort of works
-
+</del>
 Add sprites. - some done
 
