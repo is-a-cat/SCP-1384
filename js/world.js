@@ -5,6 +5,7 @@ sheetengine.scene.init(canvasElement, {w:canvasElement.width,h:canvasElement.hei
 var floor=[];
 var things=[];
 var matrix=[];
+
 var colours=['#FF652C','#FFE62C','#282828','#4083FF','#FFB52C'];
 getFloor();
 localStorage.scp=localStorage.scp||'14,6';

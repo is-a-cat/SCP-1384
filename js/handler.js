@@ -1,11 +1,66 @@
 var debug=(window.location.hash=='#debug'?1:0);
+var first = ((!localStorage.player)||(localStorage.player=="0,12"&&localStorage.scp=="14,6")?1:0);
 var a=0;
 window.onload = function(e){ 
 	a=1;
 	stats=document.getElementById('extraInfo');
+	if(first){
+	document.getElementById("everything").className='blur';
+	document.getElementById('dimmer').style.display = 'block';
+	document.getElementById('dimmer').style.zindex = '10';	
+	document.getElementById('modal').style.display = 'block';
+	}
 	if(localStorage.notes)
 		document.getElementById('notes').value=localStorage.notes;
 	updateStats();
+
+}
+
+//var count=0;
+function rollover(text,clear){
+	var subj=document.getElementById('tooltip');
+	subj.innerHTML=text;
+	if(clear!=0){
+		var count=0;
+		var cls=setInterval(function(){
+			count++;
+			if(count==clear){
+				subj.innerHTML='';
+				//rollover('');
+				window.clearInterval(cls);
+				count=0;
+			}
+		},100);
+	}
+
+}
+var fsText='Go full screen';
+function fullScreen(){
+
+if (fsText=='Go full screen'){
+	fsText='Exit full screen';
+	document.getElementById('Bplus').innerHTML='-'
+}else{
+	document.getElementById('Bplus').innerHTML='+'
+	fsText='Go full screen';
+	}
+    var
+          el = document.documentElement
+	, is = document.mozFullScreen 
+    	    || document.webkitIsFullScreen
+	, rfs =
+               el.requestFullScreen
+            || el.webkitRequestFullScreen
+            || el.mozRequestFullScreen
+	, cfs = 
+	       document.exitFullscreen
+	    || document.mozCancelFullScreen
+	    || document.webkitCancelFullScreen
+    ;
+    if(is)
+	    cfs.call(document);
+    else
+	    rfs.call(el);
 }
 function updateStats(){
 	if(!a) return;
@@ -24,7 +79,20 @@ function updateStats(){
 
 }
 function saveText(){
+
+	rollover('Text saved',20);
 	localStorage.notes=document.getElementById('notes').value;
+}
+function dim() {
+	var e = document.getElementById('dimmer');
+	if(e.style.display !== 'none'){
+		e.style.display = 'none';
+		e.style.zIndex = '0';
+	}else{
+
+		e.style.display = 'block';
+		e.style.zIndex = '10';
+	}
 }
 function toggle_visibility(id) {
 	var e = document.getElementById(id);
@@ -32,6 +100,11 @@ function toggle_visibility(id) {
 		e.style.display = 'none';
 	else
 		e.style.display = 'block';
+}
+function modal(){
+	document.getElementById("everything").className=0;
+	toggle_visibility('modal');
+	dim();
 }
 function newGame(auto){
 	if(!auto){
