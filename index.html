@@ -24,13 +24,22 @@
 <!--<script src='js/interface.js'></script>-->
 <script src='js/objects.js'></script>
 <script src='js/world.js'></script>
+<div class='right_men'>
+	<br><br>
+<div style='position:relative;bottom:20px;'>	
+	<input type="checkbox" id="switch1" class="switch" onClick='toggle_visibility("notes");'checked/>
+	<label class='tiny'for="switch1">a</label><br><br>
+</div>
+
+		<div class='but r' id='Bclose' onmouseover="rollover('New Game');" onmouseout="rollover('');" onclick="newGame()">X</div>
+		<div class='but g' id='Bplus' onmouseover="rollover(fsText);" onmouseout="rollover('');" onclick="fullScreen()">+</div>
+		<div class='but b' id='Bhelp' onmouseover="rollover('Help');" onmouseout="rollover('');" onclick="modal()">?</div>
+</div>
+
 <div class='info' id='text'>
 	<textarea id='notes' placeholder="Keep your notes here" onmouseover="rollover('Note Area');" onmouseout="rollover('');" onBlur='saveText();'></textarea><br>
 	<div class='extraInfo' id='extraInfo'></div>
 	<div id='menu2'>
-		<div class='but r' id='Bclose' onmouseover="rollover('New Game');" onmouseout="rollover('');" onclick="newGame()">X</div>
-		<div class='but g' id='Bplus' onmouseover="rollover(fsText);" onmouseout="rollover('');" onclick="fullScreen()">+</div>
-		<div class='but b' id='Bhelp' onmouseover="rollover('Help');" onmouseout="rollover('');" onclick="modal()">?</div>
 		</div>
 </div>
 
@@ -44,7 +53,7 @@
 	<div id='title'>About</div>
 	<div id='content'>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ultrices neque eros, in ultricies leo interdum ac. Maecenas risus libero, porttitor quis nulla ut, fermentum volutpat mi. Ut diam nunc, suscipit et mauris id, dictum viverra ipsum. Suspendisse vestibulum libero a nisi dapibus facilisis. Pellentesque mi elit, luctus a ante eu, fringilla rhoncus ipsum. Sed velit diam, faucibus non orci ac, pulvinar ornare dolor. Quisque vel laoreet nulla. Cras auctor pretium sapien, ut vulputate eros convallis vel. Etiam sit amet tincidunt orci. Nullam sit amet enim varius, laoreet ligula eu, viverra enim. Sed vel lorem eget lectus tristique imperdiet. Nam tincidunt eros nisi, ut gravida sem sagittis id.	
-<a class='Button start' href='#' onClick='fullScreen();modal();'>Start</a>
+		<br><a class='Button start' href='#' onClick='fullScreen();modal();'>Start</a>
 	</div>
 </div>
 <div id='dimmer'></div>

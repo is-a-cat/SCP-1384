@@ -5,10 +5,10 @@ window.onload = function(e){
 	a=1;
 	stats=document.getElementById('extraInfo');
 	if(first){
-	document.getElementById("everything").className='blur';
-	document.getElementById('dimmer').style.display = 'block';
-	document.getElementById('dimmer').style.zindex = '10';	
-	document.getElementById('modal').style.display = 'block';
+		document.getElementById("everything").className='blur';
+		document.getElementById('dimmer').style.display = 'block';
+		document.getElementById('dimmer').style.zindex = '10';	
+		document.getElementById('modal').style.display = 'block';
 	}
 	if(localStorage.notes)
 		document.getElementById('notes').value=localStorage.notes;
@@ -94,12 +94,29 @@ function dim() {
 		e.style.zIndex = '10';
 	}
 }
+function notecheckbox(){
+document.getElementById('notes').style.display='none';
+}
+	var fade;
 function toggle_visibility(id) {
 	var e = document.getElementById(id);
-	if(e.style.display !== 'none')
-		e.style.display = 'none';
-	else
-		e.style.display = 'block';
+	if(e.style.display !== 'none'){
+		fade=setInterval(function(){
+			if(!e.style.opacity) e.style.opacity=1;
+			if(e.style.opacity>0.10000000000000014){
+				e.style.opacity-=0.1;
+			}else{
+				clearInterval(fade);
+				console.log('aaaa')
+				e.style.display = 'none';
+			}
+		},50);
+	}else{
+		clearInterval(fade);
+		e.style.opacity=1;
+				e.style.display = 'block';
+
+	}
 }
 function modal(){
 	document.getElementById("everything").className=0;
