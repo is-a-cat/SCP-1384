@@ -66,6 +66,7 @@ SCP.prototype.tryMove = function(){
 	if( (this.y==11||this.y==12||this.y==13) && this.x==0){
 		alert('You Lose');
 		newGame(1);
+		LocalStorage.clear();
 		return;
 		//console.log("END");
 	}
