@@ -37,30 +37,34 @@ function rollover(text,clear){
 var fsText='Go full screen';
 function fullScreen(){
 
-if (fsText=='Go full screen'){
-	fsText='Exit full screen';
-	document.getElementById('Bplus').innerHTML='-'
-}else{
-	document.getElementById('Bplus').innerHTML='+'
-	fsText='Go full screen';
+	if (fsText=='Go full screen'){
+		fsText='Exit full screen';
+		document.getElementById('fs').src='img/small.png';
+		document.getElementById('switch2').checked=true;
+		//document.getElementById('Bplus').innerHTML='-'
+	}else{
+		document.getElementById('switch2').checked=false
+		document.getElementById('fs').src='img/full.png';
+		//document.getElementById('Bplus').innerHTML='+'
+		fsText='Go full screen';
 	}
-    var
-          el = document.documentElement
-	, is = document.mozFullScreen 
-    	    || document.webkitIsFullScreen
-	, rfs =
-               el.requestFullScreen
-            || el.webkitRequestFullScreen
-            || el.mozRequestFullScreen
-	, cfs = 
-	       document.exitFullscreen
-	    || document.mozCancelFullScreen
-	    || document.webkitCancelFullScreen
-    ;
-    if(is)
-	    cfs.call(document);
-    else
-	    rfs.call(el);
+	var
+	el = document.documentElement
+		, is = document.mozFullScreen 
+	|| document.webkitIsFullScreen
+		, rfs =
+	el.requestFullScreen
+		|| el.webkitRequestFullScreen
+			|| el.mozRequestFullScreen
+		, cfs = 
+	document.exitFullscreen
+		|| document.mozCancelFullScreen
+			|| document.webkitCancelFullScreen
+			;
+			if(is)
+				cfs.call(document);
+			else
+				rfs.call(el);
 }
 function updateStats(){
 	if(!a) return;
@@ -162,6 +166,9 @@ function saveFloor(){
 	localStorage.floor=JSON.stringify(fl);
 }
 function drawFloor(){
+	var end={x:floor.length-1,y:floor[0].length-1};
+	var sideX=[];
+	var sideY=[];
 	for(var x=0; x<floor.length;x++){
 		things[x]=[];
 		var subj=floor[x];
@@ -172,6 +179,15 @@ function drawFloor(){
 			//matrix[x][y].color = floor[x][y];
 			matrix[x][y].color = colours[subj[y]];
 			matrix[x][y].dim = {x:x,y:y};
+			if(x==end.x){
+				sideX[y]= new sheetengine.BaseSheet({x:offset-8+(x+1)*45,y:offset+15+y*45,z:0}, {alphaD:90,betaD:0,gammaD:90}, {w:20,h:45});
+			sideX[y].color = colours2[subj[y]];
+			}
+			if(y==end.y){
+				sideY[x]= new sheetengine.BaseSheet({x:offset+14+(x)*45,y:offset-8+(y+1)*45,z:0}, {alphaD:0,betaD:90,gammaD:0}, {w:20,h:45});
+
+			sideY[x].color = colours3[subj[y]];
+			}
 		}
 	}
 

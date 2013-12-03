@@ -186,6 +186,12 @@ player.prototype.drawImg = function (x, y){
 	_update();
 }
 player.prototype.tryMove = function (dir){
+	if(this.x==0&&(this.y==11||this.y==12||this.y==13)){
+		if(dir==0){
+			newGame();
+			return;
+		}
+	}
 	var oldGrid = {x:this.x, y:this.y};
 	var newGrid = {x:this.x+mov[dir].x,y:this.y+mov[dir].y};
 	function canMove(place){
@@ -204,13 +210,16 @@ player.prototype.tryMove = function (dir){
 		return false;
 	}
 	if(canMove(newGrid)){
+		var forw=0;
 		if(this.been[1]){
 			if((newGrid.x==this.been[1].x)&&(newGrid.y==this.been[1].y)){//if moving backwards
 				scp.tryMove();
+				forw=1;
 			}
 		}
 		if(this.been[0]){
 			if(this.been[0].c==floor[newGrid.x][newGrid.y]){//if moving to the same coloured square
+				if(forw!=1)
 				scp.tryMove();
 			}
 		}
