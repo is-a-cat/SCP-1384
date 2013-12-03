@@ -23,3 +23,7 @@ Add endgame for losing. - sort of works
 </del>
 Add sprites. - some done
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/is-a-cat/scp-1384/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
