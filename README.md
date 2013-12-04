@@ -28,13 +28,20 @@ CHANGELOG:
 I'm an idiot for not doing this from the beginning.
 
 3/12/13: 
-Moved menu to the right
-Tidied up the css
+Moved menu to the right  
+
+Tidied up the css  
+
 Added switches
+
 made the stage look 3d
+
 allowed hitting enter or escape for closing modal
+
 added modal transitions
+
 started adding comments and cleaning up a little
+
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/is-a-cat/scp-1384/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
