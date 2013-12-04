@@ -222,3 +222,15 @@ function checkKey(e) {
 	}
 	return false;
 }
+   function (event) {
+        if (event.which == 13 || event.keyCode == 13) {
+
+		if(document.getElementById('modal').style.display !== 'none'){
+			modal();
+		}else{
+			return true;
+		}
+            return false;
+        }
+        return true;
+    });

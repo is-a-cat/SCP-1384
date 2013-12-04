@@ -11,6 +11,8 @@ body{
 	-ms-filter:blur(3px);
 	-moz-filter:blur(3px);
 	-webkit-filter:blur(3px);
+	-webkit-transition: all 500ms ease-in;
+	transition: all 500ms ease-in;
 }
 #header{
 	width:100%:
@@ -319,7 +321,7 @@ input.switch:empty ~ label:after
 	left: 0;
 	content: ' ';
 	width: 3.6em;
-	background-color: #c33;
+	background-color: #803316;
 	border-radius: 1.3em;
 	-webkit-transition: all 100ms ease-in;
 	transition: all 100ms ease-in;
@@ -344,7 +346,7 @@ input.switch:empty ~ label:after
 
 input.switch:checked ~ label:before
 {
-	background-color: #393;
+	background-color: #4083FF;
 }
 
 input.switch:checked ~ label:after
