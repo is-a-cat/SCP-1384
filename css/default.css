@@ -182,10 +182,12 @@ canvas{
 	width:821px;
 	height:387px;
 	position:absolute;
-	display:none;
-	top:10%;
+	display:block;
+	top:-400px;
 	left:16%;
 	z-index:11;
+	-webkit-transition: all 500ms ease-in;
+	transition: all 300ms ease-in;
 }
 #dimmer{
 	width:100%;
@@ -196,7 +198,7 @@ canvas{
 	position:absolute;
 	top:0px;
 	left:0px;
-	z-index:0;
+	z-index:10;
 }
 #blah{
 	-moz-box-shadow: inset 0 0 40em #000;  
@@ -515,4 +517,45 @@ left:8px;
 	display:inline-block;
 	border:1px solid rgba(0,0,0,0.6);
 	height:65px;
+}
+#modal_1{
+	display:block;
+}
+#modal_2{//settings
+	display:none;
+}
+.inner{
+	height:250px;
+	position:absolute;
+	top:100px;
+	left:130px;
+	width:600px;
+}
+.tabs{
+	width:20%;
+	border-right:1px solid;
+	height:100%;
+	float:left;
+}
+.tabs ul{
+	margin-top:30px;
+	list-style-type: none;
+	position:relative;
+}
+.tabs li{
+	text-align:center;
+	margin-left:-50%;
+	width:150%;
+	display:block;
+}
+.tabs li:hover{
+	background:red;
+}
+.pane{
+	height:100%;
+	width:80%;
+	float:right;
+}
+#modal_3{
+	display:none;
 }

@@ -6,16 +6,12 @@ var floor=[];
 var things=[];
 var matrix=[];
 
-var colours=['#FF652C','#FFE62C','#282828','#4083FF','#FFB52C'];
-var colours2=['#FF8C61','#FFED61','#5E5E5E','#70A2FF','#FFC861'];
-//var colours2=['#BF4C21','#BFAD21','#1E1E1E','#3062BF','#BF8821'];
-var colours3=['#803316','#807316','#141414','#204280','#805B16'];
 getFloor();
-localStorage.scp=localStorage.scp||'14,6';
+localStorage.scp=localStorage.scp||sc;
 var scpCoord = localStorage.scp.split(',');
 var scp = new SCP({x:parseInt(scpCoord[0]),y:parseInt(scpCoord[1])});
 if(!localStorage.player) changeSquare({x:0,y:12},0); // SCP begins on a blue square
-localStorage.player=localStorage.player||'0,12';
+localStorage.player=localStorage.player||pla;
 var playerCoord = localStorage.player.split(',');
 var me = new player({x:parseInt(playerCoord[0]),y:parseInt(playerCoord[1])});
 var exit=new arch();

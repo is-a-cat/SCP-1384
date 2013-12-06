@@ -251,13 +251,12 @@ player.prototype.tryMove = function (dir){
 		if(( this.x==scp.x-1&&this.y==scp.y )&&dir==1){ //if crossing shadow and moving clockwise
 			cMov++;
 		}
-		/*
 		if(this.been[1]){
 			if((newGrid.x==this.been[1].x)&&(newGrid.y==this.been[1].y)){//if moving backwards
 				cMov++;
 				forw=1;
 			}
-		}*/
+		}
 		if(this.been[0]){
 			if(this.been[0].c==floor[newGrid.x][newGrid.y]){//if moving to the same coloured square
 				if(forw!=1)
@@ -337,5 +336,81 @@ function arch(){
 		 _update();
 	 };
 	this.sheet.canvasChanged();
+	_update();
+}
+function cube(position,rot,col){
+	this.x=position.x;
+	this.y=position.y;
+	things[this.x][this.y]=this;
+	var pos=matrix[this.x][this.y].centerp;
+	this.sheet = new sheetengine.Sheet(
+		{
+		x: 0,
+		y: 0,
+		z: 0
+	},
+	{
+		alphaD: 0,
+		betaD: 0,
+		gammaD: 0
+	},
+	{
+		w: 35,
+		h: 35
+	});
+	this.sheet2 = new sheetengine.Sheet(
+		{
+		x: 17,	
+		y: -17,	
+		z: 0
+	},
+	{
+		alphaD: 0,
+		betaD: 0,
+		gammaD: 90
+	},
+	{
+		w: 35,
+		h: 35
+	});
+	this.sheet3 = new sheetengine.Sheet(
+		{
+		x: 0,	
+		y: -17,	
+		z: 17
+	},
+	{
+		alphaD: 90,
+		betaD: 0,
+		gammaD: 0
+	},
+	{
+		w: 35,
+		h: 35
+	});
+	this.sheet.context.fillStyle = colours3[col];
+	this.sheet.context.fillRect(0, 0, 35, 35);
+	this.sheet2.context.fillStyle = colours4[col];
+	this.sheet2.context.fillRect(0, 0, 35, 35);
+	this.sheet3.context.fillStyle = colours[col];
+	this.sheet3.context.fillRect(0, 0, 35, 35);
+	this.obj = new sheetengine.SheetObject(
+		{
+		x: pos.x-20,
+		y: pos.y-11,
+		z: 0
+	},
+	{
+		alphaD: 0,
+		betaD: 0,
+		gammaD: rot 
+	}, [this.sheet,this.sheet2,this.sheet3],
+	{
+		w: 35,
+		h: 35,
+		relu: 20,
+		relv: 50
+	});
+
 	_update();
 }

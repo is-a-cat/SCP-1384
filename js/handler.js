@@ -1,6 +1,6 @@
 // type #debug and reload for debugging menu
-var debug=(window.location.hash=='#debug'?1:0);
-var first = ((!localStorage.player)||(localStorage.player=="0,12"&&localStorage.scp=="14,6")?1:0); // set 'first' flag if the player's position is undefined or the starting coordinates
+var debug=debug||(window.location.hash=='#debug'?1:0);
+var first = ((!localStorage.player)||(localStorage.player==pla&&localStorage.scp==sc)?1:0); // set 'first' flag if the player's position is undefined or the starting coordinates
 var a=0;
 var pause=false;
 var moveTime=0;
@@ -13,17 +13,19 @@ window.onload = function(e){
 	stats=document.getElementById('extraInfo');
 	timer();
 	if(first){
-		document.getElementById("everything").className='blur';
+		swap(1);
+		//document.getElementById("everything").className='blur';
 		pause=true;
+		modal();
 		document.getElementById('timer').innerHTML=pad(localStorage.timer,4);
-		document.getElementById('dimmer').style.display = 'block';
-		document.getElementById('dimmer').style.zindex = '10';	
-		document.getElementById('modal').style.display = 'block';
+		//document.getElementById('dimmer').style.display = 'block';
+		//document.getElementById('dimmer').style.zindex = '10';	
+		//document.getElementById('modal').style.display = 'block';
 	}
 	if(localStorage.notes)
 		document.getElementById('notes').value=localStorage.notes;
 	else
-		document.getElementById('notes').value='SCP moves if:\n███████\n██████ or █████\n███████ followed by ████';
+		document.getElementById('notes').value=_defaultText;
 	updateStats();
 
 }
@@ -84,11 +86,11 @@ function timer(){
 		if(!pause){
 			localStorage.timer++;
 			moveTime++;
-			if(moveTime==50){
+			if(moveTime==_tillMove){
 				scp.tryMove();
 				moveTime=0;
 			}
-			document.getElementById('timer').innerHTML=pad(localStorage.timer,4);
+			document.getElementById('timer').innerHTML=pad(localStorage.timer,_padLength);
 		}
 	},1000);//every second
 }
@@ -201,11 +203,28 @@ function toggle_visibility(id) {
 
 	}
 }
+function isModal(){
+	if(document.getElementById("modal").style.top=='10%')
+		return true;
+	return false;
+}
 function modal(){
-	document.getElementById("everything").className=0;
-	pause=!pause;
-	toggle_visibility('modal');
-	dim();
+	var e = document.getElementById('dimmer');
+	if(isModal()){	
+		pause=false;
+		e.style.display = 'none';
+		e.style.zIndex = '0';
+		document.getElementById("everything").className=0;
+		document.getElementById("modal").style.top='-400px';	
+		document.getElementById('dimmer').style.display = 'none';
+	}else{
+		pause=true;
+		e.style.zIndex = '10';
+		e.style.display = 'block';
+		document.getElementById("everything").className='blur';
+		document.getElementById("modal").style.top='10%';	
+		document.getElementById('dimmer').style.display = 'block';
+	}
 }
 function newGame(auto){//start a new game. auto flag determines conformation box
 	if(!auto){
@@ -219,8 +238,12 @@ function newGame(auto){//start a new game. auto flag determines conformation box
 	localStorage.notes=nn; //persistant notes
 	location.reload();
 }
+var holes=[];
+var cubes=[];
 function getFloor(){ 
 	if(localStorage.floor){ // if it exists, parse the JSON colours from localstorage and run drawfloor()
+		holes=JSON.parse(localStorage.holes);
+		cubes=JSON.parse(localStorage.cubes);
 		fl2=JSON.parse(localStorage.floor);
 		for (var d=0;d<Object.keys(fl2).length;d++){
 			floor[d]=fl2[d];
@@ -229,6 +252,20 @@ function getFloor(){
 
 	}else{ // if the string doesn't exist, make one up then run drawfloor() (also, save it for next time)
 		var subj;
+		var nHoles=Math.floor((Math.random()*_maxHoles)+_minHoles)
+		for (var n=0;n<nHoles;n++){
+				var x=Math.floor((Math.random()*13)+1);
+				var y=Math.floor((Math.random()*13)+1);
+				holes[n]={x:x,y:y};
+		}
+		var nCubes=Math.floor((Math.random()*_maxCubes)+_minCubes)
+		for (var n=0;n<nCubes;n++){
+				var x=Math.floor((Math.random()*13)+1);
+				var y=Math.floor((Math.random()*13)+1);
+				var col=Math.floor((Math.random()*4)+0);
+				var rot=Math.floor((Math.random()*_cubeRotation)+0);
+				cubes[n]={x:x,y:y,col:col,rot:rot};
+		}
 		for (var x=0; x<=14; x++) {
 			floor[x]=[];     
 			for (var y=0; y<=14; y++) {
@@ -240,9 +277,12 @@ function getFloor(){
 		drawFloor();
 	}
 }
+var dCub=[];
 //save the colours of the floor in a JSON string
 function saveFloor(){
-	var fl={};
+	localStorage.holes=JSON.stringify(holes);
+	localStorage.cubes=JSON.stringify(cubes);
+	var fl=[];
 	for(var d=0;d<floor.length;d++){
 		fl[d]=floor[d];
 	}
@@ -254,26 +294,57 @@ function drawFloor(){
 	//arrays for the side bits
 	var sideX=[];
 	var sideY=[];
+	var holeSideX;
+	var holeSideY;
+	//var hole=[{x:4,y:4},{x:2,y:2}];
+	var hole=holes;
 	for(var x=0; x<floor.length;x++){
 		things[x]=[];
 		var subj=floor[x];
 		matrix[x]=[];
 		for(var y=0; y<subj.length;y++){
-			things[x][y]=0;
-			matrix[x][y]=basesheet = new sheetengine.BaseSheet({x:offset+x*45,y:offset+y*45,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:45,h:45});
-			matrix[x][y].color = colours[subj[y]];
-			matrix[x][y].dim = {x:x,y:y};
-			if(x==end.x){
-				sideX[y]= new sheetengine.BaseSheet({x:offset-8+(x+1)*45,y:offset+15+y*45,z:0}, {alphaD:90,betaD:0,gammaD:90}, {w:20,h:45});
-				sideX[y].color = colours2[subj[y]];
+			tHole=false;
+			for(var i=0;i<hole.length;i++){
+				if(hole[i].x==x&&hole[i].y==y){
+					var tHole=true; 
+				}
 			}
-			if(y==end.y){
-				sideY[x]= new sheetengine.BaseSheet({x:offset+14+(x)*45,y:offset-8+(y+1)*45,z:0}, {alphaD:0,betaD:90,gammaD:0}, {w:20,h:45});
+			if(tHole){
+				//make a hole
+				things[x][y]='hole';//obstruction on square
+				var hole1= new sheetengine.BaseSheet({x:offset-22+x*45,y:offset+y*45,z:-20}, {alphaD:90,betaD:0,gammaD:90}, {w:40,h:45});
+				var hole2= new sheetengine.BaseSheet({x:offset+x*45,y:offset-22+y*45,z:-20}, {alphaD:0,betaD:90,gammaD:0}, {w:40,h:45});
+					hole1.color = colours4[floor[x-1][y]];
+					hole2.color = colours3[floor[x][y-1]];
+			}else{
+				things[x][y]=0;
+				matrix[x][y]=basesheet = new sheetengine.BaseSheet({x:offset+x*45,y:offset+y*45,z:0}, {alphaD:90,betaD:0,gammaD:0}, {w:45,h:45});
+				matrix[x][y].color = colours[subj[y]];
+				matrix[x][y].dim = {x:x,y:y};
+				if(x==end.x){
+					sideX[y]= new sheetengine.BaseSheet({x:offset-8+(x+1)*45,y:offset+15+y*45,z:0}, {alphaD:90,betaD:0,gammaD:90}, {w:20,h:45});
+					sideX[y].color = colours2[subj[y]];
+				}
+				if(y==end.y){
+					sideY[x]= new sheetengine.BaseSheet({x:offset+14+(x)*45,y:offset-8+(y+1)*45,z:0}, {alphaD:0,betaD:90,gammaD:0}, {w:20,h:45});
 
-				sideY[x].color = colours3[subj[y]];
+					sideY[x].color = colours3[subj[y]];
+				}
 			}
 		}
 	}
+	//add cubes
+	for(var c=0;c<cubes.length;c++){
+		dCub[c]=new cube({x:cubes[c].x,y:cubes[c].y},parseInt(cubes[c].rot,10)-(_cubeRotation/2),cubes[c].col);
+		
+	}
+}
+var titles=['About','Settings','Help'];
+function swap(n){
+	document.getElementById('modal_1').style.display = (n==1?'block':'none');
+	document.getElementById('modal_2').style.display = (n==2?'block':'none');
+	document.getElementById('modal_3').style.display = (n==3?'block':'none');
+	document.getElementById('title').innerHTML=titles[n-1];
 
 }
 function _update(){ // draw the scene
@@ -293,17 +364,37 @@ document.onkeydown = checkKey;
 document.onkeyup = ent;
 // movement keys
 function checkKey(e) {
+	if(document.getElementById('notes')==document.activeElement){//don't work if in textbox
+		return true;
+	}
 	e = e || window.event;
-	if (e.keyCode == '37') {//left
+	if (e.keyCode == _ml) {//left
 		me.tryMove(0);
-	}else if (e.keyCode == '38') {// up arrow
+	}else if (e.keyCode == _mu) {// up arrow
 		me.tryMove(1);
 	}
-	else if (e.keyCode == '39') {//right
+	else if (e.keyCode == _mr) {//right
 		me.tryMove(2);
 	}
-	else if (e.keyCode == '40') {// down arrow
+	else if (e.keyCode == _md) {// down arrow
 		me.tryMove(3);
+	}
+	else if (e.keyCode == _pg) {// p
+		pauseGame();
+	}
+	else if (e.keyCode == _se) {// ;
+		swap(2);modal();	
+	}
+	else if (e.keyCode == _he) {// ?
+		swap(3);modal();	
+	}
+	else if (e.keyCode == _fu) {// f
+		document.getElementById("switch2").checked = !document.getElementById("switch2").checked; 
+		fullScreen();
+	}
+	else if (e.keyCode == _me) {// m
+		document.getElementById("switch3").checked = !document.getElementById("switch3").checked; 
+		sound();
 	}else{
 		return true;
 	}
@@ -312,7 +403,7 @@ function checkKey(e) {
 //Close open modal with esc or enter
 function ent(event) {
 	if ((event.which == 13 || event.keyCode == 13)||(event.keyCode == 27 || event.which == 27)) {
-		if(document.getElementById('modal').style.display !== 'none'){
+		if(isModal()){
 			modal();
 		}else{
 			return true;

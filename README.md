@@ -53,5 +53,11 @@ Girlfriend started writing music for the game.
 
 Added mobile support (kinda) fixed time. Fixed transitions, bug fixes, began workin on intro screen. more to come tonight
 
+Just bits and pieces really. Added holes. If you push the SCP into them, you win (impossible right now). ALso added cubes. I will texture them with chess boards and stuff. Just for variation.
+
+Added some menu stuff. It's not finished, but it exists. Also keyboard shortcuts.
+
+tweak.js now holds all of the variables i'm going to tweak. If you want to mess around with anything from generation rate to colours  key binds, this is the place to do it.
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/is-a-cat/scp-1384/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
