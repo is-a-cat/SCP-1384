@@ -6,6 +6,28 @@ function SCP(position){
 	things[this.x][this.y]=this;
 	var pos=matrix[this.x][this.y].centerp;
 	//-------DEFINING IMAGE
+	this.shadow = new sheetengine.Sheet(
+		{
+		x: -82,
+		y: -40,
+		z: -30
+	},
+	{
+		alphaD: 90,
+		betaD: 90,
+		gammaD: 0
+	},
+	{
+		w: 30,
+		h: 64
+	});
+	var radgrad = this.shadow.context.createLinearGradient(0,64,0,0);
+	radgrad.addColorStop(0, 'rgba(0,0,0,.1)');
+	radgrad.addColorStop(0.8, 'rgba(0,0,0,0)');
+	this.shadow.context.fillStyle = radgrad;
+	this.shadow.context.fillRect(0, 0, 30, 64);
+	this.shadow.setShadows(false, false);
+	//-------------
 	this.sheet = new sheetengine.Sheet(
 		{
 		x: -40,
@@ -21,6 +43,8 @@ function SCP(position){
 		w: 30,
 		h: 64
 	});
+
+
 	this.obj = new sheetengine.SheetObject(
 		{
 		x: pos.x,
@@ -31,17 +55,17 @@ function SCP(position){
 		alphaD: 0,
 		betaD: 0,
 		gammaD: 0
-	}, [this.sheet],
+	}, [this.sheet,this.shadow],
 	{
 		w: 100,
 		h: 64,
 		relu: 0,
 		relv: 0
 	});
+
 	this.obj.setShadows(false, false);
 	this.sheet.context.fillStyle = '#12FF00';
 	this.sheet.context.fillRect(0, 0, 30, 64);
-	_update();
 }
 SCP.prototype.isFree = function(x,y){
 	if(x===0&&(y===10||y===14)){
@@ -66,36 +90,26 @@ SCP.prototype.tryMove = function(){
 	if( (this.y==11||this.y==12||this.y==13) && this.x==0){
 		alert('You Lose');
 		newGame(1);
-		LocalStorage.clear();
 		return;
-		//console.log("END");
 	}
 	if( ( this.isFree( this.x+mov[0].x,this.y+mov[0].y ) )&&(this.x>4) ){
-		console.log("forward");
 		var dir=mov[0];	
 		//forward
 	}else{
 		//if close, see which direction to move.
 		if(( this.y<11 )&&( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
-			console.log('move left');
 			var dir=mov[3];	
 		}else if(( this.y>13 )&&( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
-			console.log('move right');
 			var dir=mov[1];	
 		}else if(( this.isFree( this.x+mov[0].x,this.y+mov[0].y ) )){
-			console.log('move forward');
 			var dir=mov[0];	
 		}else if(( this.y>=13 )&&( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
-			console.log('move right');
 			var dir=mov[1];	
 		}else if(( this.y<=11 )&&( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
-			console.log('move left');
 			var dir=mov[3]; 
 		}else if(( this.isFree( this.x+mov[1].x,this.y+mov[1].y ) )){
-			console.log('move right');
 			var dir=mov[1];	
 		}else if(( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
-			console.log('move left');
 			var dir=mov[3]; 
 		}else{
 			for(var i=0;i<9;i++){
@@ -116,21 +130,44 @@ SCP.prototype.tryMove = function(){
 	this.move(newCoords,newDir);
 }
 SCP.prototype.move = function(direction,newDir){
+	flash();
 	localStorage.scp=[direction.x,direction.y].join(',');
 	var dir=matrix[direction.x][direction.y].centerp;
 	this.x+=newDir.x;
 	this.y+=newDir.y;
-	//console.log(this.x,this.y)
 	this.obj.setPosition(dir);
 	_update();
 }
 
 function player(position){
+	things[position.x][position.y]=this;
 	this.x=position.x;
 	this.y=position.y;
 	this.type='player'
 	this.been=[];
 	var pos=matrix[this.x][this.y].centerp;
+	this.shadow = new sheetengine.Sheet(
+		{
+		x: -72,
+		y: -40,
+		z: -30
+	},
+	{
+		alphaD: 90,
+		betaD: 90,
+		gammaD: 0
+	},
+	{
+		w: 30,
+		h: 64
+	});
+	var radgrad = this.shadow.context.createLinearGradient(0,64,0,0);
+	radgrad.addColorStop(0, 'rgba(0,0,0,.1)');
+	radgrad.addColorStop(0.8, 'rgba(0,0,0,0)');
+	this.shadow.context.fillStyle = radgrad;
+	this.shadow.context.fillRect(0, 0, 30, 64);
+	this.shadow.setShadows(false, false);
+	//-------------
 	this.sheet = new sheetengine.Sheet(
 		{
 		x: -26,
@@ -156,7 +193,7 @@ function player(position){
 		alphaD: 0,
 		betaD: 0,
 		gammaD: 0
-	}, [this.sheet],
+	}, [this.sheet, this.shadow],
 	{
 		w: 45,
 		h: 60,
@@ -187,6 +224,7 @@ player.prototype.drawImg = function (x, y){
 	_update();
 }
 player.prototype.tryMove = function (dir){
+
 	if(this.x==0&&(this.y==11||this.y==12||this.y==13)){
 		if(dir==0){
 			newGame();
@@ -196,48 +234,52 @@ player.prototype.tryMove = function (dir){
 	var oldGrid = {x:this.x, y:this.y};
 	var newGrid = {x:this.x+mov[dir].x,y:this.y+mov[dir].y};
 	function canMove(place){
-		if(place.x===0&&(place.y===10||place.y===14)){
+		if(place.x===0&&(place.y===10||place.y===14)){ //Arches
 			return false;
 		}
-		if(!matrix[place.x][place.y]){
+		if(!matrix[place.x]||!matrix[place.x][place.y]){ //if square doesn't exist
 			return false;
 		}
-		if(things[place.x][place.y]==0){
-			return true;
-		}else if(things[place.x][place.y].type='scp'){
-			scp.tryMove();
+		if(things[place.x][place.y]!=0){//if square is occupied
 			return false;
 		}
-		return false;
+		return true; //if criteria is met
 	}
 	if(canMove(newGrid)){
+		var cMov=0;
 		var forw=0;
+		if(( this.x==scp.x-1&&this.y==scp.y )&&dir==1){ //if crossing shadow and moving clockwise
+			cMov++;
+		}
+		/*
 		if(this.been[1]){
 			if((newGrid.x==this.been[1].x)&&(newGrid.y==this.been[1].y)){//if moving backwards
-				scp.tryMove();
+				cMov++;
 				forw=1;
 			}
-		}
+		}*/
 		if(this.been[0]){
 			if(this.been[0].c==floor[newGrid.x][newGrid.y]){//if moving to the same coloured square
 				if(forw!=1)
-				scp.tryMove();
+				cMov++;
 			}
 		}
 		this.been.unshift({x:newGrid.x,y:newGrid.y,c:floor[newGrid.x][newGrid.y]});//keep a record of movement
 		things[oldGrid.x][oldGrid.y]=0;
 		things[newGrid.x][newGrid.y]=this;
-
-		/*	Show where player has been;
+		 if(debug){//Show where the player has been
 			for(var i=0;i<me.been.length;i++){ 
-			matrix[me.been[i].x][me.been[i].y].color='red';
+				matrix[me.been[i].x][me.been[i].y].color='pink';
 			};
 			_update();
-			*/
+		 }
 		this.drawImg(2, [0,2,3,1][dir]);
 		this.move(newGrid);
+		if(cMov!=0){
+			scp.tryMove();
+		}
 	}else{
-		console.log('nope');
+		scp.tryMove(); // if the player cannot move, move the SCP
 	}
 }
 player.prototype.move = function(dir){

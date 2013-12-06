@@ -3,11 +3,18 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>SCP-1384</title>
 <meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable = no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href='css/default.css'>
+<!--         FONTS          -->
+<link rel="stylesheet" href='font/astonish.css'>
+	<link rel="stylesheet" href="style/add2home.css">
+	<script type="text/javascript" src="src/add2home.js" charset="utf-8"></script>
+<link href='http://fonts.googleapis.com/css?family=Loved+by+the+King' rel='stylesheet' type='text/css'>
 <body>
 <div id='everything'>
-<canvas id="mainCanvas" width="1000" unselectable="on" height="515" style='border:0px solid;'></canvas>
+<canvas id="mainCanvas" width="1000" unselectable="on" height="515" style='border:0px solid;' onClick='scp.tryMove();'></canvas>
 <script src='js/sheetengine.js'></script>
 <script src='js/handler.js'></script>
 <!--<script src='js/interface.js'></script>-->
@@ -16,7 +23,7 @@
 <div class='right_men'>
 	<br><br>
 <div style='position:relative;bottom:20px;'>	
-	<input type="checkbox" id="switch1" class="switch" onClick='toggle_visibility("notes");' checked/>
+	<input type="checkbox" id="switch1" class="switch" onClick='noteChange();' checked/>
 	<label class='tiny'for="switch1">a</label><br><br>
 </div>
 <img id='fs' src='img/full.png' width='20px'></img>	
@@ -25,8 +32,8 @@
 	<label class='small' for="switch2">a</label><br><br>
 </div>
 <div style='position:relative;'>	
-	<input type="checkbox" id="switch2" class="switch" onclick="sound();" />
-	<label class='small' for="switch2">a</label><br><br>
+	<input type="checkbox" id="switch3" class="switch" onclick="sound();" />
+	<label class='small' for="switch3">a</label><br><br>
 </div>
 		<div class='but r' id='Bclose' onmouseover="rollover('New Game');" onmouseout="rollover('');" onclick="newGame()">
 			<img src='img/x.png' width='28px'></img>	
@@ -34,14 +41,18 @@
 		<div class='but disabled' id='Bclose' onmouseover="rollover('Settings');" onmouseout="rollover('');" onclick="">
 			<img src='img/prefs.png' width='28px'></img>	
 		</div>
+		<div class='but g' id='Bpause' onmouseover="rollover('Pause');" onmouseout="rollover('');" onclick="pauseGame()">
+			II
+		</div>
 		<div class='but b' id='Bhelp' onmouseover="rollover('Help');" onmouseout="rollover('');" onclick="modal()">
 			?
 		</div>
 
+
 </div>
 
 <div class='info' id='text'>
-	<textarea id='notes' placeholder="Keep your notes here" onmouseover="rollover('Note Area');" onmouseout="rollover('');" onBlur='saveText();'></textarea><br>
+	<div class='outerText'><textarea id='notes' placeholder="Keep your notes here" onmouseover="rollover('Note Area');" onmouseout="rollover('');" onBlur='saveText();'></textarea></div><br>
 	<div class='extraInfo' id='extraInfo'></div>
 	<div id='menu2'>
 		</div>
@@ -50,18 +61,27 @@
 <div id='tooltip'></div>
 
 <div class='logo'></div>
+<div id='timer'>0000</div>
+<div id='cursor'>
+	<div class='key' onClick='me.tryMove(0);'><img class='up' src='img/arrow.png' ></img></div><br>
+	<div class='key' onClick='me.tryMove(3);'><img class='left' src='img/arrow.png' ></img></div>
+	<div class='key' onClick='me.tryMove(2);'><img class='down' src='img/arrow.png' ></img></div>
+	<div class='key' onClick='me.tryMove(1);'><img class='right' src='img/arrow.png' ></img></div>
+
 </div>
-<!--
-821 
-387
--->
+</div>
+<div id='paused'><p>PAUSED</p><span class='sub'>Click to unpause</span></div>
 <div id='modal'>
 	<div id='title'>About</div>
 	<div id='content'>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ultrices neque eros, in ultricies leo interdum ac. Maecenas risus libero, porttitor quis nulla ut, fermentum volutpat mi. Ut diam nunc, suscipit et mauris id, dictum viverra ipsum. Suspendisse vestibulum libero a nisi dapibus facilisis. Pellentesque mi elit, luctus a ante eu, fringilla rhoncus ipsum. Sed velit diam, faucibus non orci ac, pulvinar ornare dolor. Quisque vel laoreet nulla. Cras auctor pretium sapien, ut vulputate eros convallis vel. Etiam sit amet tincidunt orci. Nullam sit amet enim varius, laoreet ligula eu, viverra enim. Sed vel lorem eget lectus tristique imperdiet. Nam tincidunt eros nisi, ut gravida sem sagittis id.	
+		<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ultrices neque eros, in ultricies leo interdum ac. Maecenas risus libero, porttitor quis nulla ut, fermentum volutpat mi. Ut diam nunc, suscipit et mauris id, dictum viverra ipsum. Suspendisse vestibulum libero a nisi dapibus facilisis. Pellentesque mi elit, luctus a ante eu, fringilla rhoncus ipsum. Sed velit diam, faucibus non orci ac, pulvinar ornare dolor. Quisque vel laoreet nulla. Cras auctor pretium sapien, ut vulputate eros convallis vel. Etiam sit amet tincidunt orci. Nullam sit amet enim varius.
+</p>
 		<br><a class='Button start' href='#' onClick='modal();'>Start</a>
 	</div>
 </div>
 <div id='dimmer'></div>
+<div id='flash'></div>
+<div id='blah'></div>
 </body>
 </html>

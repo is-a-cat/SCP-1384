@@ -1,0 +1,57 @@
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>SCP-1384</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable = no">
+<link rel="stylesheet" href='css/default.css'>
+<!--         FONTS          -->
+<link rel="stylesheet" href='font/astonish.css'>
+<link href='http://fonts.googleapis.com/css?family=Loved+by+the+King' rel='stylesheet' type='text/css'>
+<body>
+<div id='everything'>
+<div class='right_men'>
+	<br><br>
+<div style='position:relative;bottom:20px;'>	
+	<input type="checkbox" id="switch1" class="switch" onClick='noteChange();' checked/>
+	<label class='tiny'for="switch1">a</label><br><br>
+</div>
+<img id='fs' src='img/full.png' width='20px'></img>	
+<div style='position:relative;'>	
+	<input type="checkbox" id="switch2" class="switch" onclick="fullScreen();" />
+	<label class='small' for="switch2">a</label><br><br>
+</div>
+<div style='position:relative;'>	
+	<input type="checkbox" id="switch3" class="switch" onclick="sound();" />
+	<label class='small' for="switch3">a</label><br><br>
+</div>
+		<div class='but disabled' id='Bclose' onmouseover="rollover('New Game');" onmouseout="rollover('');" onclick="newGame()">
+			<img src='img/x.png' width='28px'></img>	
+		</div>
+		<div class='but disabled' id='Bclose' onmouseover="rollover('Settings');" onmouseout="rollover('');" onclick="">
+			<img src='img/prefs.png' width='28px'></img>	
+		</div>
+		<div class='but disabled' id='Bpause' onmouseover="rollover('Pause');" onmouseout="rollover('');" onclick="pauseGame()">
+			II
+		</div>
+		<div class='but disabled' id='Bhelp' onmouseover="rollover('Help');" onmouseout="rollover('');" onclick="modal()">
+			?
+		</div>
+
+
+</div>
+<div class='main'><h1>SCP-1384</h1><p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ultrices neque eros, in ultricies leo interdum ac. Maecenas risus libero, porttitor quis nulla ut, fermentum volutpat mi. Ut diam nunc, suscipit et mauris id, dictum viverra ipsum. Suspendisse vestibulum libero a nisi dapibus facilisis. Pellentesque mi elit, luctus a ante eu, fringilla rhoncus ipsum. Sed velit diam, faucibus non orci ac, pulvinar ornare dolor. Quisque vel laoreet nulla. Cras auctor pretium sapien, ut vulputate eros convallis vel. Etiam sit amet tincidunt orci. Nullam sit amet enim varius.
+</p>
+<a class='button'>BEGIN!</a>
+</div>
+<div class='info' id='text'>
+	<div class='outerText'><textarea id='notes' placeholder="Keep your notes here" onmouseover="rollover('Note Area');" onmouseout="rollover('');" onBlur='saveText();'></textarea></div><br>
+	<div class='extraInfo' id='extraInfo'></div>
+	<div id='menu2'>
+		</div>
+</div>
+<div id='tooltip'></div>
+<div class='logo'></div>
+</body>
+</html>
