@@ -1,6 +1,9 @@
 function SCP(position){
 	this.x = position.x;
 	this.y = position.y;
+	if(floor[this.x][this.y]==1){
+		changeSquare({x:this.x,y:this.y},2);	
+	}
 	this.type='scp';
 	this.been=[];
 	things[this.x][this.y]=this;
@@ -67,22 +70,33 @@ function SCP(position){
 	this.sheet.context.fillStyle = '#12FF00';
 	this.sheet.context.fillRect(0, 0, 30, 64);
 }
-SCP.prototype.isFree = function(x,y){
+SCP.prototype.isFree = function(x,y,d){
 	if(x===0&&(y===10||y===14)){
+		return false;
+	}
+	if(matrix[x]){
+		if(!matrix[x][y])
+			return false;
+	}else{
 		return false;
 	}
 	if(this.been[1]){//just come from that square
 		if(this.been[1].x===x&&this.been[1].y===y){//don't move back to where you just where.
+			if(!d)
 			return false;
 		}
 	}
-	if(floor[x][y]==1){//square is yellow
-		return false;
-	}else if(things[x][y]!=0){//square is occupied
-		return false;
-	}else{
-		return true;
+	if(floor[x]){//square is yellow
+		if(floor[x][y]==1){//square is yellow
+			return false;
+		}
 	}
+	if(things[x]){
+		if(things[x][y]!=0){//square is occupied
+			return false;
+		}
+	}
+	return true;
 }
 var mov = [ {x:-1,y:0}, {x:0,y:-1}, {x:1,y:0}, {x:0,y:1}];
 SCP.prototype.tryMove = function(){
@@ -111,6 +125,12 @@ SCP.prototype.tryMove = function(){
 			var dir=mov[1];	
 		}else if(( this.isFree( this.x+mov[3].x,this.y+mov[3].y ) )){
 			var dir=mov[3]; 
+		}else if( this.isFree( this.x+mov[1].x,this.y+mov[1].y,1 )&&( this.x==1&&this.y==14 )){//annoying one at the end
+			var dir=mov[1];
+		}else if( this.isFree( this.x+mov[2].x,this.y+mov[2].y,1 )&&( this.x==0&&this.y==9 )){//annoying one at the end
+			var dir=mov[2];
+		}else if(this.isFree( this.been[1].x,this.been[1].y,1 )&&things[this.x+mov[0].x][this.y+mov[0].y].type=='cube'){
+			var dir={x:this.been[1].x,y:this.been[1].y};
 		}else{
 			for(var i=0;i<9;i++){
 				var coords=[{x:0,y:1},{x:1,y:0},{x:1,y:1},{x:-1,y:0},{x:0,y:-1},{x:-1,y:-1},{x:-1,y:1},{x:1,y:-1}][i];
@@ -341,6 +361,7 @@ function arch(){
 function cube(position,rot,col){
 	this.x=position.x;
 	this.y=position.y;
+	this.type='cube';
 	things[this.x][this.y]=this;
 	var pos=matrix[this.x][this.y].centerp;
 	this.sheet = new sheetengine.Sheet(
@@ -411,6 +432,8 @@ function cube(position,rot,col){
 		relu: 20,
 		relv: 50
 	});
-
+	this.sheet.setShadows(false, true);
+	this.sheet2.setShadows(false, true);
+	this.sheet3.setShadows(false, true);
 	_update();
 }

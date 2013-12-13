@@ -6,10 +6,11 @@ var colours2=['#FF8C61','#FFED61','#5E5E5E','#70A2FF','#FFC861'];//lighter
 var colours3=['#803316','#807316','#141414','#204280','#805B16'];//darker
 var colours4=['#BF4C21','#BFAD21','#1E1E1E','#3062BF','#BF8821'];//in betweem 0 and 3 for gaps
 //initial coords.
-var pla='0,12';//  PLAYER:
-var sc='14,6';//  SCP
+var _pla={x:0,y:12};//Player
+var _sc={x:14,y:6};//SCP
 var _tillMove=50;//time till SCP moves by itself
 var _padLength=4;//number of digits on timer
+_clearTime=6; // default time before clearing tooltip box in seconds
 _minHoles=2;
 _maxHoles=5;
 _minCubes=3;

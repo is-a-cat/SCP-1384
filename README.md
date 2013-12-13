@@ -6,23 +6,6 @@ This game is client-side only so cloning and opening index.html is all it takes 
 
 GAME.HTML is the single-file version of the game. Download it to play the game so far offline or <a href='http://htmlpreview.github.io/?https://raw.github.com/is-a-cat/SCP-1384/master/GAME.HTML'>click here</a> to play it throughgithub's htmlpreview.
 
-TO DO:
----------
-
-<del>
-Add researchers.
-</del>
-Add rules for 1384 moving forward. - some done
-<del>
-Implement some kind of time system.
-</del>
-Add basic pathfinding to avoid collisions. - sort of works
-
-<del>
-Add endgame for losing. - sort of works
-</del>
-Add sprites. - some done
-
 CHANGELOG:
 ------------
 I'm an idiot for not doing this from the beginning.
@@ -58,6 +41,10 @@ Just bits and pieces really. Added holes. If you push the SCP into them, you win
 Added some menu stuff. It's not finished, but it exists. Also keyboard shortcuts.
 
 tweak.js now holds all of the variables i'm going to tweak. If you want to mess around with anything from generation rate to colours  key binds, this is the place to do it.
+
+13/12/13:
+
+Audio.js holds all of the audio commands, sound is stored in sound/ with metadata in soundIndex.js. 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/is-a-cat/scp-1384/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

@@ -14,16 +14,19 @@
 <link href='http://fonts.googleapis.com/css?family=Loved+by+the+King' rel='stylesheet' type='text/css'>
 <body>
 <div id='everything'>
+
 	<canvas id="mainCanvas" width="1000" unselectable="on" height="515" style='border:0px solid;' onClick='scp.tryMove();'></canvas>
 	<script src='js/sheetengine.js'></script>
 	<script src='js/tweak.js'></script>
+	<script src='sound/soundindex.js'></script>
+	<script src='js/audio.js'></script>
 	<script src='js/handler.js'></script>
 	<!--<script src='js/interface.js'></script>-->
 	<script src='js/objects.js'></script>
 	<script src='js/world.js'></script>
 	<div class='right_men'>
 		<br><br>
-		<div style='position:relative;bottom:20px;'>	
+		<div style='position:relative;bottom:8px;'>	
 			<input type="checkbox" id="switch1" class="switch" onClick='noteChange();' checked/>
 			<label class='tiny'for="switch1">a</label><br><br>
 		</div>
@@ -51,15 +54,25 @@
 
 
 	</div>
-
 	<div class='info' id='text'>
-		<div class='outerText'><textarea id='notes' placeholder="Keep your notes here" onmouseover="rollover('Note Area');" onmouseout="rollover('');" onBlur='saveText();'></textarea></div><br>
-		<div class='extraInfo' id='extraInfo'></div>
-		<div id='menu2'>
-		</div>
-	</div>
+		<div class='outerText'><textarea id='notes' placeholder="Keep your notes here" onmouseover="rollover('Note Area');" onmouseout="rollover('');" onBlur='saveText();'></textarea>
 
-	<div id='tooltip'></div>
+			<div id='audioHolder'>
+				<div id='audioScroller'><span id='innerScroll'>Nothing Playing. . .</span></div>
+				<div id='audioButtonHolder'>
+					<div id='volumeBar'></div>
+					<img id='audioButton' src='img/rew.png' width='20px'></img>
+					<img id='audioButton' src='img/min.png'  onClick='volChange(0);' width='20px'></img>
+					<img id='audioButton' src='img/plus.png' onClick='volChange(1);' width='20px'></img>
+					<img id='audioButton' src='img/rew.png' onClick='skipSong();'  class='left' width='19px'></img>
+				</div>
+			</div>
+		</div><br>
+		<div class='extraInfo' id='extraInfo'></div>
+	</div>
+	<div id='tool_cont'>
+		<div id='tooltip' class='act'></div>
+	</div>
 
 	<div class='logo'></div>
 	<div id='timer'>0000</div>
@@ -79,25 +92,38 @@
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ultrices neque eros, in ultricies leo interdum ac. Maecenas risus libero, porttitor quis nulla ut, fermentum volutpat mi. Ut diam nunc, suscipit et mauris id, dictum viverra ipsum. Suspendisse vestibulum libero a nisi dapibus facilisis. Pellentesque mi elit, luctus a ante eu, fringilla rhoncus ipsum. Sed velit diam, faucibus non orci ac, pulvinar ornare dolor. Quisque vel laoreet nulla. Cras auctor pretium sapien, ut vulputate eros convallis vel. Etiam sit amet tincidunt orci. Nullam sit amet enim varius.
 		</p>
 		<div id='modal_2'>
-		<div class='inner'>
-		<div class='tabs'>
-			<ul>
-			<li>blah</li>
-			<li>blah</li>
-			<li>blah</li>
-			</li>
+			<div class='inner'>
+				<div class='tabs'>
+					<ul>
+						<li>General</li>
+						<li>Keys</li>
+						<li>Misc</li>
+						</li>
+					</div>
+					<div class='pane'>
+						Alert bubble stay time:
+						<input type='text' id='TclearTime' style='width:30px;' onBlur='_clearTime=this.value;'></input> seconds
+
+					</div>
+				</div>
+			</div>
+
+			<div class='pane' style='top:100px'>
+				<p id='modal_3'>
+				<h2>Concept:</h2>
+				Based upon <a href='http://www.scp-wiki.net/scp-1384' target='_blank'>SCP-1384</a>.
+				<h2>Graphics</h2>
+				<a href="http://thenounproject.com/noun/fullscreen/#icon-No15391" target="_blank">Fullscreen</a> and <a href="http://thenounproject.com/noun/fullscreen/#icon-No15393" target="_blank">Fullscreen</a> designed by <a href="http://thenounproject.com/sparanoid" target="_blank">Tunghsiao Liu</a> from The Noun Project<br>
+
+				<a href="http://thenounproject.com/noun/gears/#icon-No14097" target="_blank">Gears</a> designed by <a href="http://thenounproject.com/Ilsur1103" target="_blank">Ilsur Aptukov</a> from The Noun Project
+
+				</p>
+			</div>
+			<br><a class='Button start' href='#' onClick='modal();'>Start</a>
 		</div>
-		<div class='pane'></div>
-		</div>
-		</div>
-		<p id='modal_3'>
-		three
-		</p>
-		<br><a class='Button start' href='#' onClick='modal();'>Start</a>
 	</div>
-</div>
-<div id='dimmer' onClick='modal();'></div>
-<div id='flash'></div>
-<div id='blah'></div>
-</body>
-</html>
+	<div id='dimmer' onClick='modal();'></div>
+	<div id='flash'></div>
+	<div id='blah'></div>
+	</body>
+	</html>
